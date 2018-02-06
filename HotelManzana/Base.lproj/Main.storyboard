@@ -10,6 +10,57 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Hotel-->
+        <scene sceneID="W07-Zh-guf">
+            <objects>
+                <tableViewController id="6ab-3k-u1Q" customClass="HMRegistrationListTableViewController" customModule="HotelManzana" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="dzl-Cn-YGO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="RegistrationCell" textLabel="Lfp-aN-rPb" detailTextLabel="RXM-BC-79v" style="IBUITableViewCellStyleSubtitle" id="Ybr-eR-jcp">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ybr-eR-jcp" id="pFF-Lh-VO0">
+                                    <rect key="frame" x="0.0" y="0.0" width="341" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lfp-aN-rPb">
+                                            <rect key="frame" x="16" y="5" width="33.5" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RXM-BC-79v">
+                                            <rect key="frame" x="16" y="25.5" width="44" height="14.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="6ab-3k-u1Q" id="Ve9-y4-pMI"/>
+                            <outlet property="delegate" destination="6ab-3k-u1Q" id="Vn5-mY-wzM"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Hotel" id="Jfx-gW-fUM">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="mlG-Zw-NSs">
+                            <connections>
+                                <segue destination="cs9-ne-yQa" kind="show" id="Q4j-CN-nkU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e5c-p9-zw4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52" y="121"/>
+        </scene>
         <!--Add Registration-->
         <scene sceneID="evi-OE-oau">
             <objects>
@@ -327,7 +378,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="n02-mp-3iL" kind="show" id="2aG-TT-WoY"/>
+                                            <segue destination="n02-mp-3iL" kind="show" identifier="SelectTypeSegue" id="2aG-TT-WoY"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -346,7 +397,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Done" id="RSm-7v-5yG">
                             <connections>
-                                <action selector="doneBarButtonTapped:" destination="cs9-ne-yQa" id="Fec-tg-TnA"/>
+                                <segue destination="0PS-jv-uYb" kind="unwind" unwindAction="unwindFromAddRegistration:" id="ke3-Ns-pu6"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -362,13 +413,15 @@
                         <outlet property="numberOfAdultsStepper" destination="QYi-ZX-NuV" id="a0z-tW-fG3"/>
                         <outlet property="numberOfChildrenLabel" destination="Y7a-gA-dc0" id="btW-sZ-EVK"/>
                         <outlet property="numberOfChildrenStepper" destination="1YR-ey-bZl" id="ZLQ-bi-pg2"/>
+                        <outlet property="roomTypeLabel" destination="FMj-rh-1kJ" id="kNz-fg-h3P"/>
                         <outlet property="wifiPriceLabel" destination="l2c-Fw-FsI" id="ECJ-po-OwR"/>
                         <outlet property="wifiSwitcher" destination="Hhw-6a-tpf" id="iOw-dQ-pQ9"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dlF-2n-up2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="0PS-jv-uYb" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="760.79999999999995" y="117.39130434782609"/>
+            <point key="canvasLocation" x="801" y="116"/>
         </scene>
         <!--Room Type-->
         <scene sceneID="YgN-NN-Ygt">
@@ -423,12 +476,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="cs9-ne-yQa" kind="relationship" relationship="rootViewController" id="fna-EI-I4i"/>
+                        <segue destination="6ab-3k-u1Q" kind="relationship" relationship="rootViewController" id="ENQ-zR-VlB"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tc2-wH-KZY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-190" y="118"/>
+            <point key="canvasLocation" x="-665" y="117"/>
         </scene>
     </scenes>
 </document>

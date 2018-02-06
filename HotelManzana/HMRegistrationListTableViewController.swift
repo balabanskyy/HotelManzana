@@ -1,29 +1,19 @@
 //
-//  HMRoomTypeTableViewController.swift
+//  HMRegistrationListTableViewController.swift
 //  HotelManzana
 //
-//  Created by Artur Balabanskyy on 1/2/18.
+//  Created by Artur Balabanskyy on 6/2/18.
 //  Copyright © 2018 Artur Balabanskyy. All rights reserved.
 //
 
 import UIKit
 
-protocol HMRoomTypeTableViewControllerDelegate {
-    func didSelect(roomType: HMRoomType)
-}
+class HMRegistrationListTableViewController: UITableViewController {
 
-class HMRoomTypeTableViewController: UITableViewController {
-
-    var delegate: HMRoomTypeTableViewControllerDelegate?
-    var roomType: HMRoomType?
+    var registrations = [HMRegistration]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
@@ -33,33 +23,31 @@ class HMRoomTypeTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return HMRoomType.all.count
+        return registrations.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "RoomTypeCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RegistrationCell", for: indexPath)
 
-        let room = HMRoomType.all[indexPath.row]
-        cell.textLabel?.text = room.name
-        cell.detailTextLabel?.text = "$ \(room.price)"
-        if room == self.roomType {
-            cell.accessoryType = .checkmark
-        }
-        else {
-            cell.accessoryType = .none
-        }
+        let registration = registrations[indexPath.row]
+        cell.textLabel?.text = registration.firstName + " " + registration.lastName
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .none
+        cell.detailTextLabel?.text = formatter.string(from: registration.checkInDate) + " - " + formatter.string(from: registration.checkOutDate) + " " + registration.roomType.shortName
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        roomType = HMRoomType.all[indexPath.row]
-        delegate?.didSelect(roomType: roomType!)
-        tableView.reloadData()
+
+    @IBAction func unwindFromAddRegistration(_ segue:UIStoryboardSegue) {
+        if let addRegistrationController = segue.source as? HMAddRegistrationTableViewController {
+            guard let registration = addRegistrationController.registration else { return }
+            registrations.append(registration)
+            tableView.reloadData()
+        }
     }
     
-
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

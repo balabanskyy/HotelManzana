@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HMAddRegistrationTableViewController: UITableViewController {
+class HMAddRegistrationTableViewController: UITableViewController, HMRoomTypeTableViewControllerDelegate {
 
     let defaultCellHeight: CGFloat = 44.0
     let defaultPickerCellHeight: CGFloat = 220.0
@@ -49,7 +49,26 @@ class HMAddRegistrationTableViewController: UITableViewController {
     @IBOutlet weak var wifiPriceLabel: UILabel!
     @IBOutlet weak var wifiSwitcher: UISwitch!
     
+    @IBOutlet weak var roomTypeLabel: UILabel!
     
+    var roomType: HMRoomType?
+    
+    var registration: HMRegistration? {
+        
+        guard let roomType = roomType else { return nil }
+        
+        let firstName = firstNameTextField.text ?? ""
+        let lastName = lastNameTextField.text ?? ""
+        let email = emailTextField.text ?? ""
+        let checkInDate = checkInDatePicker.date
+        let checkOutDate = checkOutDatePicker.date
+        let numberOfAdults = Int(numberOfAdultsStepper.value)
+        let numberOfChildren = Int(numberOfChildrenStepper.value)
+        let hasWifi = wifiSwitcher.isOn
+        
+        return HMRegistration(firstName: firstName, lastName: lastName, email: email, checkInDate: checkInDate, checkOutDate: checkOutDate, numberOfAdults: numberOfAdults, numberOfChildren: numberOfChildren, wifi: hasWifi, roomType: roomType)
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +80,7 @@ class HMAddRegistrationTableViewController: UITableViewController {
         updateDateViews()
         updateNumberOfGuests()
         updateWiFiPrice()
+        updateRoomType()
     }
 
     override func didReceiveMemoryWarning() {
@@ -68,15 +88,19 @@ class HMAddRegistrationTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    /*
+    
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "SelectTypeSegue" {
+            let destination = segue.destination as? HMRoomTypeTableViewController
+            destination?.delegate = self
+            destination?.roomType = roomType
+        }
     }
-    */
+
+    
+    
     @IBAction func doneBarButtonTapped(_ sender: Any) {
         
         let firstName = firstNameTextField.text ?? ""
@@ -84,6 +108,9 @@ class HMAddRegistrationTableViewController: UITableViewController {
         let email = emailTextField.text ?? ""
         let checkInDate = checkInDatePicker.date
         let checkOutDate = checkOutDatePicker.date
+        let numberOfAdults = Int(numberOfAdultsStepper.value)
+        let numberOfChildren = Int(numberOfChildrenStepper.value)
+        let hasWifi = wifiSwitcher.isOn
         
         print("Done")
         print("First name: \(firstName)")
@@ -190,6 +217,24 @@ class HMAddRegistrationTableViewController: UITableViewController {
     
     func updateWiFiPrice() {
         wifiPriceLabel.text = wifiSwitcher.isOn ? "$10" : "$0"
+    }
+    
+    func updateRoomType() {
+        if let roomType = roomType {
+            roomTypeLabel.text = roomType.shortName
+        }
+        else {
+            roomTypeLabel.text = "Not Set"
+        }
+    }
+    
+    
+    
+    //MARK: - HMRoomTypeTableViewControllerDelegate
+    
+    func didSelect(roomType: HMRoomType) {
+        self.roomType = roomType
+        updateRoomType()
     }
     
     
